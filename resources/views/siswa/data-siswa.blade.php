@@ -6,7 +6,7 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <a class="btn btn-success mb-3" href="{{ route('siswa.create') }}"> Create New User</a>
+        <a class="btn btn-success mb-3" href="{{ route('siswa.create') }}"> Tambah Siswa</a>
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <th>Nama</th>

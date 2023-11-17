@@ -3,11 +3,11 @@
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title justify-content-center">DataTable Siswa</h3>
+        <h3 class="card-title justify-content-center">DataTable Roles</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <a class="btn btn-success mb-3" href="{{ route('roles.create') }}"> Create New User</a>
+        <a class="btn btn-success mb-3" href="{{ route('roles.create') }}"> Buat Role</a>
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <th>Nama</th>
