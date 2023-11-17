@@ -9,7 +9,6 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
-use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
     
 class UserController extends Controller
@@ -19,7 +18,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
         $user = User::orderBy('id','DESC')->paginate(5);
         return view('user.data-user',compact('user'));
@@ -30,7 +29,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(): View
+    public function create()
     {
         $roles = Role::pluck('name','name')->all();
         return view('user.user-create',compact('roles'));
@@ -67,7 +66,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id): View
+    public function show($id)
     {
         $user = User::find($id);
         return view('user.user-show',compact('user'));
@@ -79,7 +78,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id): View
+    public function edit($id)
     {
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();

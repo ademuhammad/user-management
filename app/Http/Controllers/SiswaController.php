@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 
-
-use App\Models\Siswa;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use DB;
+use Illuminate\Http\RedirectResponse;
+use App\Models\Siswa;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 
 class SiswaController extends Controller
@@ -23,12 +27,13 @@ class SiswaController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        //
+        //dd($request->all());
+        $siswa = Siswa::orderBy('id','DESC')->get();
+        return view('siswa.data-siswa',compact('siswa')); 
+        // return response()->json($siswa);
 
-        $siswa = Siswa::latest();
-        return view('siswa.data-siswa',compact(siswa)); 
     }
 
     /**
@@ -75,19 +80,19 @@ class SiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,  $siswa)
+   public function update(Request $request, $siswa)
     {
-        //
-         request()->validate([
-            'nama' =>'required',
-            'kelas' =>'required',
-            'alamat' => 'required'
-        ]);
 
-        Siswa::update($request->all());
-        return redirect()->route('siswa.index');
+    $siswaModel = Siswa::findOrFail($siswa);
+
+    $request->validate([
+        'nama' => 'required',
+        'kelas' => 'required',
+        'alamat' => 'required',
+    ]);
+    $siswaModel->update($request->all());
+    return redirect()->route('siswa.index');
     }
-
     /**
      * Remove the specified resource from storage.
      */

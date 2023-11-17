@@ -94,6 +94,15 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route ('siswa.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Siswa Management
+
+                                </p>
+                            </a>
+                        </li>
 
                     </ul>
                 </nav>

@@ -2,13 +2,13 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">DataTable with default features</h3>
+        <h3 class="card-title">DataTable User</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
+        <a class="btn btn-success mb-3" href="{{ route('users.create') }}"> Create New User</a>
         <table id="example1" class="table table-bordered table-striped">
             <thead>
-                <th>No</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Roles</th>
@@ -19,13 +19,13 @@
 
                 @foreach ($user as $users)
                 <tr>
-                    <td></td>
+
                     <td>{{ $users->name }}</td>
                     <td>{{ $users->email }}</td>
                     <td>
                         @if(!empty($users->getRoleNames()))
                         @foreach($users->getRoleNames() as $v)
-                        <label class="badge badge-success">{{ $v }}</label>
+                        {{ $v }}
                         @endforeach
                         @endif
                     </td>

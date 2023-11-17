@@ -31,11 +31,10 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
-        $roles = Role::orderBy('id','DESC');
-        return view('role.data-role',compact('roles'));
-            
+        $roles = Role::orderBy('id','DESC')->get();
+        return view('role.data-role', compact('roles'));           
     }
     
     /**
