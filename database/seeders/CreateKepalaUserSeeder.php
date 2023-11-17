@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class CreateKepalaUserSeeder extends Seeder
 {
@@ -22,9 +22,13 @@ class CreateKepalaUserSeeder extends Seeder
             'password' => bcrypt('kepsek123')
         ]);
 
+
         $role = Role::create(['name' => 'Kepala']);
+       
         $permissions = Permission::pluck('id','id')->all();
+     
         $role->syncPermissions($permissions);
+       
         $user->assignRole([$role->id]);
     }
 }

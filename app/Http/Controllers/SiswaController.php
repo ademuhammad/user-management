@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
+
+
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 
 class SiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-
-     function __construct()
+ function __construct()
     {
-         $this->middleware('permission:siswa-list|siswa-create|siswa-edit|siswa-delete', ['only' => ['index','show']]);
-         $this->middleware('permission:siswa-create', ['only' => ['create','store']]);
-         $this->middleware('permission:siswa-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:siswa-delete', ['only' => ['destroy']]);
+        $this->middleware(PermissionMiddleware::class . ':siswa-list|siswa-create|siswa-edit|siswa-delete', ['only' => ['index','show']]);
+        $this->middleware(PermissionMiddleware::class . ':siswa-create', ['only' => ['create','store']]);
+        $this->middleware(PermissionMiddleware::class . ':siswa-edit', ['only' => ['edit','update']]);
+        $this->middleware(PermissionMiddleware::class . ':siswa-delete', ['only' => ['destroy']]);
+       
+
     }
 
     public function index()

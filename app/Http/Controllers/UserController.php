@@ -1,45 +1,49 @@
 <?php
-
+    
 namespace App\Http\Controllers;
-
+    
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
-use App\Models\User;
 use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use App\Http\Controllers\Controller;
+use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\UserController;
-
+    
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request): View
     {
-        //
-        $user = User::latest()->get();
+        $user = User::orderBy('id','DESC')->paginate(5);
         return view('user.data-user',compact('user'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View
     {
-        //
         $roles = Role::pluck('name','name')->all();
         return view('user.user-create',compact('roles'));
     }
-
+    
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -53,37 +57,46 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
     
-        return redirect()->route('users.index')->with('Berhasil','Berhasil Tambah User');
+        return redirect()->route('users.index')
+                        ->with('Berhasil','Berhasil Membuat User');
     }
-
+    
     /**
      * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function show( $id)
+    public function show($id): View
     {
-        //
-         $user = User::find($id);
-        return view('user-show',compact('user'));
+        $user = User::find($id);
+        return view('user.user-show',compact('user'));
     }
-
+    
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function edit( $id)
+    public function edit($id): View
     {
-        //
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
+    
         return view('user.user-edit',compact('user','roles','userRole'));
     }
-
+    
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $id)
+    public function update(Request $request, $id): RedirectResponse
     {
-        //
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
@@ -105,18 +118,19 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
     
         return redirect()->route('users.index')
-                        ->with('Berhasil','Berhasil Update User');
+                        ->with('success','User updated successfully');
     }
     
-
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(string $id)
+    public function destroy($id): RedirectResponse
     {
-        //
-         User::find($id)->delete();
+        User::find($id)->delete();
         return redirect()->route('users.index')
-                        ->with('Berhasil','Berhasil Hapus User');
+                        ->with('success','User deleted successfully');
     }
 }
